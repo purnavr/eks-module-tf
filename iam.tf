@@ -45,17 +45,17 @@ resource "aws_iam_role" "eks-node-role" {
 
 resource "aws_iam_role_policy_attachment" "node-AmazonEKSWorkerNodePolicy-attach" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
-  role       = aws_iam_role.eks-cluster-role.name
+  role       = aws_iam_role.eks-node-role.name
 }
 
 resource "aws_iam_role_policy_attachment" "node-AmazonEKS_CNI_Policy-attach" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
-  role       = aws_iam_role.eks-cluster-role.name
+  role       = aws_iam_role.eks-node-role.name
 }
 
 resource "aws_iam_role_policy_attachment" "node-AmazonEC2ContainerRegistryReadOnly-attach" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-  role       = aws_iam_role.eks-cluster-role.name
+  role       = aws_iam_role.eks-node-role.name
 }
 
 
