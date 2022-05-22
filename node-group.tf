@@ -3,6 +3,8 @@ resource "aws_eks_node_group" "node-group" {
   node_group_name = "tf-nodes-spot"
   node_role_arn   = aws_iam_role.eks-node-role.arn
   subnet_ids      = var.PRIVATE_SUBNET_IDS
+  capacity_type = "SPOT"
+  instance_types = ["t3.xlarge"]
 
   scaling_config {
     desired_size = 1
