@@ -1,4 +1,4 @@
-resource "aws_eks_node_group" "example" {
+resource "aws_eks_node_group" "node-group" {
   cluster_name    = aws_eks_cluster.eks.name
   node_group_name = "tf-nodes-spot"
   node_role_arn   = aws_iam_role.eks-node-role.arn
