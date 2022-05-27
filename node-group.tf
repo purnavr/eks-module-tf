@@ -7,9 +7,9 @@ resource "aws_eks_node_group" "node-group" {
   instance_types = ["t3.xlarge"]
 
   scaling_config {
-    desired_size = 1
-    max_size     = 1
-    min_size     = 1
+    desired_size = var.DESIRED_SIZE
+    max_size     = var.MAX_SIZE
+    min_size     = var.MIN_SIZE
   }
 
   depends_on = [
