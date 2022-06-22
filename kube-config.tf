@@ -13,7 +13,11 @@ provider "kubernetes" {
 provider "helm" {
   kubernetes {
     config_path = "~/.kube/config"
-    config_context = aws_eks_cluster.eks.arn
+    exec {
+      api_version = "client.authentication.k8s.io/v1alpha1"
+      args        = ["eks", "get-token", "--cluster-name", "${var.ENV}-eks-cluster"]
+      command     = "aws"
+    }
   }
 }
 
