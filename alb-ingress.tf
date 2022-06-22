@@ -233,3 +233,9 @@ resource "kubernetes_service_account" "alb-ingress-sa" {
   }
   automount_service_account_token = true
 }
+
+resource "null_resource" "create-aws-ingress-crd" {
+  provisioner "remote-exec" {
+    command = "kubectl apply -k 'github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master'"
+  }
+}
