@@ -243,26 +243,12 @@ resource "null_resource" "create-aws-ingress-crd" {
   }
 }
 
-resource "helm_release" "alb-ingress-chart" {
+resource "null_resource" "alb-ingress-chart" {
   count       = var.CREATE_ALB_INGRESS ? 1 : 0
-  name       = "aws-load-balancer-controller"
-  repository = "https://aws.github.io/eks-charts"
-  chart = "aws-load-balancer-controller"
-  namespace = "kube-system"
-
-  set {
-    name  = "clusterName"
-    value = "${var.ENV}-eks-cluster"
+  provisioner "local-exec" {
+    command = <<EOF
+helm repo add eks https://aws.github.io/eks-charts
+helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller --set clusterName=${var.ENV}-eks-cluster --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller -n kube-system
+EOF
   }
-
-  set {
-    name  = "serviceAccount.create"
-    value = "false"
-  }
-
-  set {
-    name  = "serviceAccount.name"
-    value = "aws-load-balancer-controller"
-  }
-
 }
