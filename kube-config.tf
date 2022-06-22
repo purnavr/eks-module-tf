@@ -10,5 +10,11 @@ provider "kubernetes" {
   config_context = aws_eks_cluster.eks.arn
 }
 
+provider "helm" {
+  kubernetes {
+    config_path = "~/.kube/config"
+  }
+}
+
 
 

@@ -224,6 +224,7 @@ resource "aws_iam_policy" "alb-serviceaccount-policy" {
 }
 
 resource "kubernetes_service_account" "alb-ingress-sa" {
+  count       = var.CREATE_ALB_INGRESS ? 1 : 0
   metadata {
     name = "aws-load-balancer-controller"
     namespace = "kube-system"
@@ -235,8 +236,33 @@ resource "kubernetes_service_account" "alb-ingress-sa" {
 }
 
 resource "null_resource" "create-aws-ingress-crd" {
+  count       = var.CREATE_ALB_INGRESS ? 1 : 0
   depends_on = [null_resource.get-kube-config]
   provisioner "local-exec" {
     command = "kubectl apply -k 'github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master'"
   }
+}
+
+resource "helm_release" "alb-ingress-chart" {
+  count       = var.CREATE_ALB_INGRESS ? 1 : 0
+  name       = "aws-load-balancer-controller"
+  repository = "https://aws.github.io/eks-charts"
+  chart = "eks/aws-load-balancer-controller"
+  namespace = "kube-system"
+
+  set {
+    name  = "clusterName"
+    value = "${var.ENV}-eks-cluster"
+  }
+
+  set {
+    name  = "serviceAccount.create"
+    value = "false"
+  }
+
+  set {
+    name  = "serviceAccount.name"
+    value = "aws-load-balancer-controller"
+  }
+
 }
