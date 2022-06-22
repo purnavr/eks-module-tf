@@ -247,7 +247,7 @@ resource "helm_release" "alb-ingress-chart" {
   count       = var.CREATE_ALB_INGRESS ? 1 : 0
   name       = "aws-load-balancer-controller"
   repository = "https://aws.github.io/eks-charts"
-  chart = "eks/aws-load-balancer-controller"
+  chart = "aws-load-balancer-controller"
   namespace = "kube-system"
 
   set {
