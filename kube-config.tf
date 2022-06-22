@@ -5,9 +5,10 @@ resource "null_resource" "get-kube-config" {
   }
 }
 
-resource "kubernetes_namespace" "example" {
-  metadata {
-    name = "my-first-namespace"
-  }
+provider "kubernetes" {
+  config_path    = "~/.kube/config"
+  config_context = aws_eks_cluster.eks.arn
 }
+
+
 

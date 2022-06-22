@@ -223,4 +223,13 @@ resource "aws_iam_policy" "alb-serviceaccount-policy" {
   })
 }
 
-
+resource "kubernetes_service_account" "alb-ingress-sa" {
+  metadata {
+    name = "aws-load-balancer-controller"
+    namespace = "kube-system"
+    annotations = {
+      "eks.amazonaws.com/role-arn" = aws_iam_policy.alb-serviceaccount-policy.*.arn[0]
+    }
+  }
+  automount_service_account_token = true
+}
