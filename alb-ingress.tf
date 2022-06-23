@@ -244,12 +244,17 @@ resource "null_resource" "create-aws-ingress-crd" {
 }
 
 resource "null_resource" "alb-ingress-chart" {
+  triggers = {
+    a = timestamp()
+  }
   depends_on = [null_resource.get-kube-config]
   count       = var.CREATE_ALB_INGRESS ? 1 : 0
   provisioner "local-exec" {
     command = <<EOF
 helm repo add eks https://aws.github.io/eks-charts
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller --set clusterName=${var.ENV}-eks-cluster --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller -n kube-system
+helm upgrade -i prometheus prometheus-community/kube-prometheus-stack --namespace prometheus --set alertmanager.persistentVolume.storageClass="gp2",server.persistentVolume.storageClass=gp2
 EOF
   }
 }
