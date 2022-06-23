@@ -244,6 +244,7 @@ resource "null_resource" "create-aws-ingress-crd" {
 }
 
 resource "null_resource" "alb-ingress-chart" {
+  depends_on = [null_resource.get-kube-config]
   count       = var.CREATE_ALB_INGRESS ? 1 : 0
   provisioner "local-exec" {
     command = <<EOF
