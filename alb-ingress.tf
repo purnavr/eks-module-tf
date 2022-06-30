@@ -5,21 +5,21 @@ resource "aws_iam_policy" "alb-serviceaccount-policy" {
   description = "ALBIngressPolicy-${var.ENV}-eks-cluster"
 
   policy = jsonencode({
-    "Version": "2012-10-17",
-    "Statement": [
+    "Version" : "2012-10-17",
+    "Statement" : [
       {
-        "Effect": "Allow",
-        "Action": "iam:CreateServiceLinkedRole",
-        "Resource": "*",
-        "Condition": {
-          "StringEquals": {
-            "iam:AWSServiceName": "elasticloadbalancing.amazonaws.com"
+        "Effect" : "Allow",
+        "Action" : "iam:CreateServiceLinkedRole",
+        "Resource" : "*",
+        "Condition" : {
+          "StringEquals" : {
+            "iam:AWSServiceName" : "elasticloadbalancing.amazonaws.com"
           }
         }
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "ec2:DescribeAccountAttributes",
           "ec2:DescribeAddresses",
           "ec2:DescribeAvailabilityZones",
@@ -44,11 +44,11 @@ resource "aws_iam_policy" "alb-serviceaccount-policy" {
           "elasticloadbalancing:DescribeTargetHealth",
           "elasticloadbalancing:DescribeTags"
         ],
-        "Resource": "*"
+        "Resource" : "*"
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "cognito-idp:DescribeUserPoolClient",
           "acm:ListCertificates",
           "acm:DescribeCertificate",
@@ -67,114 +67,114 @@ resource "aws_iam_policy" "alb-serviceaccount-policy" {
           "shield:CreateProtection",
           "shield:DeleteProtection"
         ],
-        "Resource": "*"
+        "Resource" : "*"
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "ec2:AuthorizeSecurityGroupIngress",
           "ec2:RevokeSecurityGroupIngress"
         ],
-        "Resource": "*"
+        "Resource" : "*"
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "ec2:CreateSecurityGroup"
         ],
-        "Resource": "*"
+        "Resource" : "*"
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "ec2:CreateTags"
         ],
-        "Resource": "arn:aws:ec2:*:*:security-group/*",
-        "Condition": {
-          "StringEquals": {
-            "ec2:CreateAction": "CreateSecurityGroup"
+        "Resource" : "arn:aws:ec2:*:*:security-group/*",
+        "Condition" : {
+          "StringEquals" : {
+            "ec2:CreateAction" : "CreateSecurityGroup"
           },
-          "Null": {
-            "aws:RequestTag/elbv2.k8s.aws/cluster": "false"
+          "Null" : {
+            "aws:RequestTag/elbv2.k8s.aws/cluster" : "false"
           }
         }
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "ec2:CreateTags",
           "ec2:DeleteTags"
         ],
-        "Resource": "arn:aws:ec2:*:*:security-group/*",
-        "Condition": {
-          "Null": {
-            "aws:RequestTag/elbv2.k8s.aws/cluster": "true",
-            "aws:ResourceTag/elbv2.k8s.aws/cluster": "false"
+        "Resource" : "arn:aws:ec2:*:*:security-group/*",
+        "Condition" : {
+          "Null" : {
+            "aws:RequestTag/elbv2.k8s.aws/cluster" : "true",
+            "aws:ResourceTag/elbv2.k8s.aws/cluster" : "false"
           }
         }
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "ec2:AuthorizeSecurityGroupIngress",
           "ec2:RevokeSecurityGroupIngress",
           "ec2:DeleteSecurityGroup"
         ],
-        "Resource": "*",
-        "Condition": {
-          "Null": {
-            "aws:ResourceTag/elbv2.k8s.aws/cluster": "false"
+        "Resource" : "*",
+        "Condition" : {
+          "Null" : {
+            "aws:ResourceTag/elbv2.k8s.aws/cluster" : "false"
           }
         }
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "elasticloadbalancing:CreateLoadBalancer",
           "elasticloadbalancing:CreateTargetGroup"
         ],
-        "Resource": "*",
-        "Condition": {
-          "Null": {
-            "aws:RequestTag/elbv2.k8s.aws/cluster": "false"
+        "Resource" : "*",
+        "Condition" : {
+          "Null" : {
+            "aws:RequestTag/elbv2.k8s.aws/cluster" : "false"
           }
         }
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "elasticloadbalancing:CreateListener",
           "elasticloadbalancing:DeleteListener",
           "elasticloadbalancing:CreateRule",
           "elasticloadbalancing:DeleteRule"
         ],
-        "Resource": "*"
+        "Resource" : "*"
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "elasticloadbalancing:AddTags",
           "elasticloadbalancing:RemoveTags"
         ],
-        "Resource": [
+        "Resource" : [
           "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
           "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
           "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*"
         ],
-        "Condition": {
-          "Null": {
-            "aws:RequestTag/elbv2.k8s.aws/cluster": "true",
-            "aws:ResourceTag/elbv2.k8s.aws/cluster": "false"
+        "Condition" : {
+          "Null" : {
+            "aws:RequestTag/elbv2.k8s.aws/cluster" : "true",
+            "aws:ResourceTag/elbv2.k8s.aws/cluster" : "false"
           }
         }
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "elasticloadbalancing:AddTags",
           "elasticloadbalancing:RemoveTags"
         ],
-        "Resource": [
+        "Resource" : [
           "arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*",
           "arn:aws:elasticloadbalancing:*:*:listener/app/*/*/*",
           "arn:aws:elasticloadbalancing:*:*:listener-rule/net/*/*/*",
@@ -182,8 +182,8 @@ resource "aws_iam_policy" "alb-serviceaccount-policy" {
         ]
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "elasticloadbalancing:ModifyLoadBalancerAttributes",
           "elasticloadbalancing:SetIpAddressType",
           "elasticloadbalancing:SetSecurityGroups",
@@ -193,40 +193,40 @@ resource "aws_iam_policy" "alb-serviceaccount-policy" {
           "elasticloadbalancing:ModifyTargetGroupAttributes",
           "elasticloadbalancing:DeleteTargetGroup"
         ],
-        "Resource": "*",
-        "Condition": {
-          "Null": {
-            "aws:ResourceTag/elbv2.k8s.aws/cluster": "false"
+        "Resource" : "*",
+        "Condition" : {
+          "Null" : {
+            "aws:ResourceTag/elbv2.k8s.aws/cluster" : "false"
           }
         }
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "elasticloadbalancing:RegisterTargets",
           "elasticloadbalancing:DeregisterTargets"
         ],
-        "Resource": "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*"
+        "Resource" : "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*"
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "elasticloadbalancing:SetWebAcl",
           "elasticloadbalancing:ModifyListener",
           "elasticloadbalancing:AddListenerCertificates",
           "elasticloadbalancing:RemoveListenerCertificates",
           "elasticloadbalancing:ModifyRule"
         ],
-        "Resource": "*"
+        "Resource" : "*"
       }
     ]
   })
 }
 
 resource "kubernetes_service_account" "alb-ingress-sa" {
-  count       = var.CREATE_ALB_INGRESS ? 1 : 0
+  count = var.CREATE_ALB_INGRESS ? 1 : 0
   metadata {
-    name = "aws-load-balancer-controller"
+    name      = "aws-load-balancer-controller"
     namespace = "kube-system"
     annotations = {
       "eks.amazonaws.com/role-arn" = aws_iam_role.oidc-role.arn
@@ -248,7 +248,7 @@ data "aws_iam_policy_document" "policy_document" {
         "https://",
         "",
       )}:sub"
-      values = "aws-load-balancer-controller"
+      values = ["aws-load-balancer-controller"]
     }
 
     principals {
@@ -268,7 +268,7 @@ resource "aws_iam_role" "oidc-role" {
 }
 
 resource "null_resource" "create-aws-ingress-crd" {
-  count       = var.CREATE_ALB_INGRESS ? 1 : 0
+  count      = var.CREATE_ALB_INGRESS ? 1 : 0
   depends_on = [null_resource.get-kube-config]
   provisioner "local-exec" {
     command = "kubectl apply -k 'github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master'"
@@ -280,7 +280,7 @@ resource "null_resource" "alb-ingress-chart" {
     a = timestamp()
   }
   depends_on = [null_resource.get-kube-config]
-  count       = var.CREATE_ALB_INGRESS ? 1 : 0
+  count      = var.CREATE_ALB_INGRESS ? 1 : 0
   provisioner "local-exec" {
     command = <<EOF
 helm repo add eks https://aws.github.io/eks-charts
