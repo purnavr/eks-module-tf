@@ -269,7 +269,7 @@ resource "aws_iam_role" "oidc-role" {
 
 resource "aws_iam_role_policy_attachment" "alb-role-attach" {
   role       = aws_iam_role.oidc-role.name
-  policy_arn = aws_iam_policy.alb-serviceaccount-policy.arn
+  policy_arn = aws_iam_policy.alb-serviceaccount-policy.*.arn[0]
 }
 
 resource "null_resource" "create-aws-ingress-crd" {
