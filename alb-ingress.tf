@@ -229,10 +229,42 @@ resource "kubernetes_service_account" "alb-ingress-sa" {
     name = "aws-load-balancer-controller"
     namespace = "kube-system"
     annotations = {
-      "eks.amazonaws.com/role-arn" = aws_iam_policy.alb-serviceaccount-policy.*.arn[0]
+      "eks.amazonaws.com/role-arn" = aws_iam_role.oidc-role.arn
     }
   }
   automount_service_account_token = true
+}
+
+data "aws_caller_identity" "current" {}
+
+data "aws_iam_policy_document" "policy_document" {
+  statement {
+    actions = ["sts:AssumeRoleWithWebIdentity"]
+
+    condition {
+      test = "ForAnyValue:StringLike"
+      variable = "${replace(
+        aws_eks_cluster.eks.identity[0].oidc[0].issuer,
+        "https://",
+        "",
+      )}:sub"
+      values = "aws-load-balancer-controller"
+    }
+
+    principals {
+      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/${replace(
+        aws_eks_cluster.eks.identity[0].oidc[0].issuer,
+        "https://",
+        "",
+      )}"]
+      type = "Federated"
+    }
+  }
+}
+
+resource "aws_iam_role" "oidc-role" {
+  name               = "alb-ingress-role-with-oidc"
+  assume_role_policy = data.aws_iam_policy_document.policy_document.json
 }
 
 resource "null_resource" "create-aws-ingress-crd" {
