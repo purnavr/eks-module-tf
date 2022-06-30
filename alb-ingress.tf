@@ -267,6 +267,11 @@ resource "aws_iam_role" "oidc-role" {
   assume_role_policy = data.aws_iam_policy_document.policy_document.json
 }
 
+resource "aws_iam_role_policy_attachment" "alb-role-attach" {
+  role       = aws_iam_role.oidc-role.name
+  policy_arn = aws_iam_policy.alb-serviceaccount-policy.arn
+}
+
 resource "null_resource" "create-aws-ingress-crd" {
   count      = var.CREATE_ALB_INGRESS ? 1 : 0
   depends_on = [null_resource.get-kube-config]
