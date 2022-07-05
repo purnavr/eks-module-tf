@@ -248,7 +248,7 @@ data "aws_iam_policy_document" "policy_document" {
         "https://",
         "",
       )}:sub"
-      values = ["aws-load-balancer-controller"]
+      values = ["sts.amazonaws.com"]
     }
 
     principals {
