@@ -242,12 +242,12 @@ data "aws_iam_policy_document" "policy_document" {
     actions = ["sts:AssumeRoleWithWebIdentity"]
 
     condition {
-      test = "ForAnyValue:StringLike"
+      test = "StringEquals"
       variable = "${replace(
         aws_eks_cluster.eks.identity[0].oidc[0].issuer,
         "https://",
         "",
-      )}:sub"
+      )}:aud"
       values = ["sts.amazonaws.com"]
     }
 
