@@ -224,6 +224,7 @@ resource "aws_iam_policy" "alb-serviceaccount-policy" {
 }
 
 resource "kubernetes_service_account" "alb-ingress-sa" {
+  depends_on = [null_resource.get-kube-config]
   count = var.CREATE_ALB_INGRESS ? 1 : 0
   metadata {
     name      = "aws-load-balancer-controller"
