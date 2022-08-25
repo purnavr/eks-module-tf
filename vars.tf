@@ -7,3 +7,6 @@ variable "MIN_SIZE" {}
 variable "CREATE_ALB_INGRESS" {
   default = false
 }
+variable "CREATE_EXTERNAL_SECRETS" {
+  default = false
+}
