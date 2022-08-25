@@ -282,7 +282,7 @@ resource "null_resource" "create-aws-ingress-crd" {
   }
 }
 
-resource "null_resource" "alb-ingress-chart" {
+resource "null_resource" "external-secrets-chart" {
   triggers = {
     a = timestamp()
   }
