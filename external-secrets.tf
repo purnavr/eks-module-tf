@@ -65,6 +65,7 @@ resource "aws_iam_role" "external-secrets-oidc-role" {
 }
 
 resource "aws_iam_role_policy_attachment" "external-secrets-role-attach" {
+  count       = var.CREATE_EXTERNAL_SECRETS ? 1 : 0
   role       = aws_iam_role.external-secrets-oidc-role.name
   policy_arn = aws_iam_policy.external-secrets-serviceaccount-policy.*.arn[0]
 }
