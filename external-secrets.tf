@@ -70,7 +70,7 @@ resource "aws_iam_role_policy_attachment" "external-secrets-role-attach" {
   policy_arn = aws_iam_policy.external-secrets-serviceaccount-policy.*.arn[0]
 }
 
-resource "null_resource" "alb-ingress-chart" {
+resource "null_resource" "external-secrets-ingress-chart" {
   triggers = {
     a = timestamp()
   }
