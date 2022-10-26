@@ -88,10 +88,16 @@ resource "aws_iam_role" "external-secrets-oidc-role" {
   assume_role_policy = data.aws_iam_policy_document.external-secrets-policy_document.json
 }
 
-resource "aws_iam_role_policy_attachment" "external-secrets-role-attach" {
+resource "aws_iam_role_policy_attachment" "external-secrets-secret-manager-role-attach" {
   count       = var.CREATE_EXTERNAL_SECRETS ? 1 : 0
   role       = aws_iam_role.external-secrets-oidc-role.name
-  policy_arn = aws_iam_policy.external-secrets-serviceaccount-policy.*.arn[0]
+  policy_arn = aws_iam_policy.external-secrets-secret-manager-serviceaccount-policy.*.arn[0]
+}
+
+resource "aws_iam_role_policy_attachment" "external-secrets-parameter-store-role-attach" {
+  count       = var.CREATE_EXTERNAL_SECRETS ? 1 : 0
+  role       = aws_iam_role.external-secrets-oidc-role.name
+  policy_arn = aws_iam_policy.external-secrets-parameter-store-serviceaccount-policy.*.arn[0]
 }
 
 resource "null_resource" "external-secrets-ingress-chart" {
