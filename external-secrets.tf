@@ -1,8 +1,8 @@
-resource "aws_iam_policy" "external-secrets-serviceaccount-policy" {
+resource "aws_iam_policy" "external-secrets-secret-manager-serviceaccount-policy" {
   count       = var.CREATE_EXTERNAL_SECRETS ? 1 : 0
-  name        = "ExternalSecretsPolicy-${var.ENV}-eks-cluster"
+  name        = "ExternalSecretsPolicy-sm-${var.ENV}-eks-cluster"
   path        = "/"
-  description = "ExternalSecretsPolicy-${var.ENV}-eks-cluster"
+  description = "ExternalSecretsPolicy-sm-${var.ENV}-eks-cluster"
 
   policy = jsonencode({
     "Version": "2012-10-17",
@@ -14,6 +14,30 @@ resource "aws_iam_policy" "external-secrets-serviceaccount-policy" {
           "secretsmanager:GetSecretValue",
           "secretsmanager:DescribeSecret",
           "secretsmanager:ListSecretVersionIds"
+        ],
+        "Resource": "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "external-secrets-parameter-store-serviceaccount-policy" {
+  count       = var.CREATE_EXTERNAL_SECRETS ? 1 : 0
+  name        = "ExternalSecretsPolicy-pm-${var.ENV}-eks-cluster"
+  path        = "/"
+  description = "ExternalSecretsPolicy-pm-${var.ENV}-eks-cluster"
+
+  policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+          "ssm:GetParameterHistory",
+          "ssm:GetParametersByPath",
+          "ssm:GetParameters",
+          "ssm:GetParameter",
+          "ssm:DescribeParameters"
         ],
         "Resource": "*"
       }
