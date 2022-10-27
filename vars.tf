@@ -10,3 +10,8 @@ variable "CREATE_ALB_INGRESS" {
 variable "CREATE_EXTERNAL_SECRETS" {
   default = false
 }
+
+
+variable "INSTALL_KUBE_METRICS" {
+  default = false
+}
