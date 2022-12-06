@@ -94,7 +94,7 @@ resource "aws_iam_role_policy_attachment" "ascp-sm-role-attach" {
   policy_arn = aws_iam_policy.ascp-sm-serviceaccount-policy.*.arn[0]
 }
 
-resource "aws_iam_role_policy_attachment" "external-secrets-parameter-store-role-attach" {
+resource "aws_iam_role_policy_attachment" "ascp-ps-role-attach" {
   count       = var.CREATE_SCP ? 1 : 0
   role       = aws_iam_role.ascp-oidc-role.name
   policy_arn = aws_iam_policy.ascp-ps-serviceaccount-policy.*.arn[0]
