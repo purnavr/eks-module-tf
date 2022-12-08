@@ -19,3 +19,7 @@ variable "INSTALL_KUBE_METRICS" {
 variable "CREATE_SCP" {
   default = false
 }
+
+variable "CREATE_NGINX_INGRESS" {
+  default = false
+}
