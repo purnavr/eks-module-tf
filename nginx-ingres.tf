@@ -8,7 +8,7 @@ resource "null_resource" "nginx-ingress-chart" {
     command = <<EOF
 helm repo add nginx-stable https://helm.nginx.com/stable
 helm repo update
-helm install ingress nginx-stable/nginx-ingress -f ${path.module}/extras/nginx-ingress-values.yml
+helm upgrade -i ingress nginx-stable/nginx-ingress -f ${path.module}/extras/nginx-ingress-values.yml
 EOF
   }
 }
