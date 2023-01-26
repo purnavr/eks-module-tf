@@ -110,7 +110,7 @@ resource "null_resource" "external-secrets-ingress-chart" {
     command = <<EOF
 helm repo add external-secrets https://charts.external-secrets.io
 helm repo update
-helm install external-secrets external-secrets/external-secrets -n kube-system --set serviceAccount.create=false --set serviceAccount.name=external-secrets-controller
+helm upgrade -i external-secrets external-secrets/external-secrets -n kube-system --set serviceAccount.create=false --set serviceAccount.name=external-secrets-controller
 sleep 30
 kubectl apply -f ${path.module}/extras/external-store.yml
 EOF
