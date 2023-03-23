@@ -23,3 +23,7 @@ variable "CREATE_SCP" {
 variable "CREATE_NGINX_INGRESS" {
   default = false
 }
+
+variable "PARAMETER_STORE_ROBOSHOP_PROJECT" {
+  default = false
+}
