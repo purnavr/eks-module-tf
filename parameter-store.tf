@@ -56,8 +56,8 @@ resource "aws_iam_role" "parameter-store-oidc-role" {
 
 resource "aws_iam_role_policy_attachment" "parameter-store-role-attach" {
   count       = var.CREATE_PARAMETER_STORE ? 1 : 0
-  role       = aws_iam_role.external-secrets-oidc-role.*.name[0]
-  policy_arn = aws_iam_policy.external-secrets-secret-manager-serviceaccount-policy.*.arn[0]
+  role       = aws_iam_role.parameter-store-oidc-role.*.name[0]
+  policy_arn = aws_iam_policy.parameter-store-serviceaccount-policy.*.arn[0]
 }
 
 
