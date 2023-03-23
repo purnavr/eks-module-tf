@@ -24,6 +24,6 @@ variable "CREATE_NGINX_INGRESS" {
   default = false
 }
 
-variable "PARAMETER_STORE_ROBOSHOP_PROJECT" {
+variable "CREATE_PARAMETER_STORE" {
   default = false
 }
