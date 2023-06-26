@@ -27,3 +27,7 @@ variable "CREATE_NGINX_INGRESS" {
 variable "CREATE_PARAMETER_STORE" {
   default = false
 }
+
+variable "version" {
+  default = 1.23
+}
