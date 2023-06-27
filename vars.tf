@@ -28,6 +28,6 @@ variable "CREATE_PARAMETER_STORE" {
   default = false
 }
 
-variable "version" {
+variable "versionx" {
   default = 1.23
 }
